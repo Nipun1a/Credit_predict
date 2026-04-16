@@ -1,0 +1,1 @@
+train on collab and then make the backend and the frontend of the project
