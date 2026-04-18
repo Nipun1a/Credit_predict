@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 # Ignore environment variables file
 env
+.env
 # Ignore IDE and editor configuration files
 vscode/
 idea/
