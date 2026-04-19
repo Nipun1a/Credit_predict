@@ -1,3 +1,4 @@
+import os
 import time
 
 import requests
@@ -15,8 +16,18 @@ AUTHOR_NAME = "Nipun"
 GITHUB_URL = "https://github.com/Nipun1a"
 LINKEDIN_URL = "https://www.linkedin.com/in/nipun-pal-450805294/"
 CONTACT_EMAIL = "nipun7abc@gmail.com"
-API_URL = "http://127.0.0.1:8000/predict"
+DEFAULT_BACKEND_BASE_URL = "http://127.0.0.1:8000"
 MIN_LOADER_SECONDS = 2.5
+
+
+def get_api_url() -> str:
+    secret_backend_url = st.secrets.get("BACKEND_URL") if hasattr(st, "secrets") else None
+    env_backend_url = os.getenv("BACKEND_URL")
+    backend_base_url = (secret_backend_url or env_backend_url or DEFAULT_BACKEND_BASE_URL).rstrip("/")
+    return f"{backend_base_url}/predict"
+
+
+API_URL = get_api_url()
 
 
 st.markdown(
@@ -272,6 +283,12 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+if API_URL.startswith(DEFAULT_BACKEND_BASE_URL):
+    st.info(
+        "Using the local backend URL. For Streamlit Cloud, set `BACKEND_URL` in Secrets "
+        "to your Render backend URL."
+    )
 
 
 st.markdown(
